@@ -1,8 +1,8 @@
 <?php
 
-function bitcoin_config() {
+function litcoin_config() {
     $configarray = array(
-     "FriendlyName" => array("Type" => "System", "Value"=>"Bitcoin"),
+     "FriendlyName" => array("Type" => "System", "Value"=>"Litecoin"),
      "username" => array("FriendlyName" => "RPC Username", "Type" => "text", "Size" => "20", ),
      "password" => array("FriendlyName" => "RPC Password", "Type" => "text", "Size" => "20", ),
      "host" => array("FriendlyName" => "RPC Hostname", "Type" => "text", "Size" => "20", ),
@@ -14,7 +14,7 @@ function bitcoin_config() {
 	return $configarray;
 }
 
-function bitcoin_link($params) {
+function litcoin_link($params) {
 
     # Gateway Specific Variables
 	$u = $params['username'];
@@ -39,13 +39,13 @@ function bitcoin_link($params) {
 	$country = $params['clientdetails']['country'];
 	$phone = $params['clientdetails']['phonenumber'];
 
-	# Build Bitcoin Information Here
-	require_once 'bitcoin/jsonRPCClient.php';
-	$bitcoin = new jsonRPCClient($rpc); 
-	if(!$bitcoin->getinfo()){
-		die('could not connect to bitcoind');
+	# Build Litcoin Information Here
+	require_once 'litcoin/jsonRPCClient.php';
+	$litecoin = new jsonRPCClient($rpc); 
+	if(!$litecoin->getinfo()){
+		die('could not connect to litcoind');
 	}
-	$address = $bitcoin->getaccountaddress($params['clientdetails']['userid'].'-'.$invoiceid);
+	$address = $litecoin->getaccountaddress($params['clientdetails']['userid'].'-'.$invoiceid);
 	
 	# Enter your code submit to the gateway...
 	$code = 'Send Payments to: '.$address.'';
@@ -54,7 +54,7 @@ function bitcoin_link($params) {
 
 }
 
-function bitcoin_refund($params) {
+function litcoin_refund($params) {
 
     # Gateway Specific Variables
 	$gatewayusername = $params['username'];
