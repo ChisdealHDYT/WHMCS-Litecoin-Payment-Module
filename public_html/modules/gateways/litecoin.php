@@ -1,6 +1,6 @@
 <?php
 
-function litcoin_config() {
+function zenzo_config() {
     $configarray = array(
      "FriendlyName" => array("Type" => "System", "Value"=>"Litecoin"),
      "username" => array("FriendlyName" => "RPC Username", "Type" => "text", "Size" => "20", ),
@@ -14,7 +14,7 @@ function litcoin_config() {
 	return $configarray;
 }
 
-function litcoin_link($params) {
+function zenzo_link($params) {
 
     # Gateway Specific Variables
 	$u = $params['username'];
@@ -39,22 +39,36 @@ function litcoin_link($params) {
 	$country = $params['clientdetails']['country'];
 	$phone = $params['clientdetails']['phonenumber'];
 
+	$urlamount = "https://api.coingecko.com/api/v3/simple/price?ids=zenzo&vs_currencies=usd";
+	$contentamount = file_get_contents($urlamount);
+	$jsonamount = json_decode($contentamount, true);
+
+	function toFixed($number, $decimals) {
+  		return number_format($number, $decimals, '.', "");
+	}
+
+	$priceznz = toFixed(($amount / $jsonamount['zenzo']['usd']), 2);
+	
+	/*if($status >= 300 || $amount < 0.0005) { // Blockchain.info will only relay a transaction if it's 0.0005 BTC or larger
+		return "Transaction amount too low. Please try another payment method or open a ticket with Billing.";
+	}*/
+	
 	# Build Litcoin Information Here
-	require_once 'litcoin/jsonRPCClient.php';
-	$litecoin = new jsonRPCClient($rpc); 
-	if(!$litecoin->getinfo()){
+	require_once 'zenzo/jsonRPCClient.php';
+	$zenzo = new jsonRPCClient($rpc); 
+	if(!$zenzo->getinfo()){
 		die('could not connect to litcoind');
 	}
-	$address = $litecoin->getaccountaddress($params['clientdetails']['userid'].'-'.$invoiceid);
+	$address = $zenzo->getaccountaddress($params['clientdetails']['userid'].'-'.$invoiceid);
 	
 	# Enter your code submit to the gateway...
-	$code = 'Send Payments to: '.$address.'';
+	$code = 'Send '. $priceznz .' ZNZ to: '.$address.'';
 
 	return $code;
 
 }
 
-function litcoin_refund($params) {
+function zenzo_refund($params) {
 
     # Gateway Specific Variables
 	$gatewayusername = $params['username'];
