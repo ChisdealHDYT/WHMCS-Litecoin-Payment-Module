@@ -2,7 +2,7 @@
 
 function zenzo_config() {
     $configarray = array(
-     "FriendlyName" => array("Type" => "System", "Value"=>"Litecoin"),
+     "FriendlyName" => array("Type" => "System", "Value"=>"ZENZO"),
      "username" => array("FriendlyName" => "RPC Username", "Type" => "text", "Size" => "20", ),
      "password" => array("FriendlyName" => "RPC Password", "Type" => "text", "Size" => "20", ),
      "host" => array("FriendlyName" => "RPC Hostname", "Type" => "text", "Size" => "20", ),
